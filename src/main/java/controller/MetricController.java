@@ -103,6 +103,7 @@ public class MetricController {
 
         if (!metrics.containsKey(name)) {
             toReturn.put("error", "Metric with name " + name + " does not exist");
+            return toReturn.toString();
         }
 
         try {
@@ -122,7 +123,7 @@ public class MetricController {
                 median = (values.get(size/2) + values.get((size/2) - 1)) / 2;
             }
 
-            toReturn.put("success", median);
+            toReturn.put("success", Double.valueOf(median));
         } catch (Exception e) {
             toReturn.put("error", e.getLocalizedMessage());
         }
@@ -136,6 +137,7 @@ public class MetricController {
 
         if (!metrics.containsKey(name)) {
             toReturn.put("error", "Metric with name " + name + " does not exist");
+            return toReturn.toString();
         }
 
         try {
@@ -160,6 +162,7 @@ public class MetricController {
 
         if (!metrics.containsKey(name)) {
             toReturn.put("error", "Metric with name " + name + " does not exist");
+            return toReturn.toString();
         }
 
         try {

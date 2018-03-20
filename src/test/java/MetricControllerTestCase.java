@@ -111,4 +111,136 @@ public class MetricControllerTestCase {
         Assert.assertEquals(values.get(3), val1);
     }
 
+    @Test
+    public void testGetMean() {
+        String name = "Metric";
+        Double val1 = 5.0;
+        Double val2 = 6.5;
+        Double val3 = 10.3;
+        Double val4 = 1.25;
+
+        String result = sut.getMean(name);
+        JSONObject jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("error"));
+        Assert.assertEquals(jsonObject.get("error"), "Metric with name " + name + " does not exist");
+
+        sut.create(name);
+
+        result = sut.getMean(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("error"));
+        Assert.assertEquals(jsonObject.get("error"), "Metric " + name + " is empty");
+
+        sut.addValueToMetric(name, val1);
+        sut.addValueToMetric(name, val2);
+        sut.addValueToMetric(name, val3);
+        sut.addValueToMetric(name, val4);
+
+        result = sut.getMean(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("success"));
+        Assert.assertEquals(jsonObject.getDouble("success"), (val1 + val2 + val3 + val4) / 4, .001);
+    }
+
+    @Test
+    public void testGetMedian() {
+        String name = "Metric";
+        Double val1 = 5.0;
+        Double val2 = 6.5;
+        Double val3 = 10.3;
+        Double val4 = 1.25;
+        Double val5 = 3.75;
+
+        String result = sut.getMedian(name);
+        JSONObject jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("error"));
+        Assert.assertEquals(jsonObject.get("error"), "Metric with name " + name + " does not exist");
+
+        sut.create(name);
+
+        result = sut.getMedian(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("error"));
+        Assert.assertEquals(jsonObject.get("error"), "Metric " + name + " is empty");
+
+        sut.addValueToMetric(name, val1);
+        sut.addValueToMetric(name, val2);
+        sut.addValueToMetric(name, val3);
+        sut.addValueToMetric(name, val4);
+
+        result = sut.getMedian(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("success"));
+        Assert.assertEquals(jsonObject.getDouble("success"), (val1 + val2) / 2, .001);
+
+        sut.addValueToMetric(name, val5);
+
+        result = sut.getMedian(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("success"));
+        Assert.assertEquals(jsonObject.getDouble("success"), val1, .001);
+    }
+
+    @Test
+    public void testGetMin() {
+        String name = "Metric";
+        Double val1 = 5.0;
+        Double val2 = 6.5;
+        Double val3 = 10.3;
+        Double val4 = 1.25;
+
+        String result = sut.getMin(name);
+        JSONObject jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("error"));
+        Assert.assertEquals(jsonObject.get("error"), "Metric with name " + name + " does not exist");
+
+        sut.create(name);
+
+        result = sut.getMin(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("error"));
+        Assert.assertEquals(jsonObject.get("error"), "Metric " + name + " is empty");
+
+        sut.addValueToMetric(name, val1);
+        sut.addValueToMetric(name, val2);
+        sut.addValueToMetric(name, val3);
+        sut.addValueToMetric(name, val4);
+
+        result = sut.getMin(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("success"));
+        Assert.assertEquals(jsonObject.getDouble("success"), val4, .001);
+    }
+
+    @Test
+    public void testGetMax() {
+        String name = "Metric";
+        Double val1 = 5.0;
+        Double val2 = 6.5;
+        Double val3 = 10.3;
+        Double val4 = 1.25;
+
+        String result = sut.getMax(name);
+        JSONObject jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("error"));
+        Assert.assertEquals(jsonObject.get("error"), "Metric with name " + name + " does not exist");
+
+        sut.create(name);
+
+        result = sut.getMax(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("error"));
+        Assert.assertEquals(jsonObject.get("error"), "Metric " + name + " is empty");
+
+        sut.addValueToMetric(name, val1);
+        sut.addValueToMetric(name, val2);
+        sut.addValueToMetric(name, val3);
+        sut.addValueToMetric(name, val4);
+
+        result = sut.getMax(name);
+        jsonObject = new JSONObject(result);
+        Assert.assertTrue(jsonObject.has("success"));
+        Assert.assertEquals(jsonObject.getDouble("success"), val3, .001);
+    }
+
 }
